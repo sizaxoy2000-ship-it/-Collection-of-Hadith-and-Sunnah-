@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a1e3e">
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="سنة وحديث">
+    
+    <title>سنة وحديث سيروز | Siroz Web</title>
+
+    <link rel="icon" type="image/png" href="8687.png">
+    <link rel="apple-touch-icon" href="8687.png">
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+        :root {
+            --primary: #0a1e3e; 
+            --accent: #ffffff;  
+            --bg: #ffffff;
+            --card-bg: #f8faff;
+            --text-main: #0a1e3e;
+            --text-muted: #5e6a75;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* تنسيق مرن لشريط اللغات */
+        .lang-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 12px;
+            background: var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 6px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active { background: white; color: var(--primary); font-weight: bold; }
+
+        header {
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            padding: 30px 15px;
+        }
+
+        .bismillah { 
+            font-size: clamp(1rem, 4vw, 1.3rem); 
+            font-weight: 500; 
+            color: var(--text-muted); 
+            margin-bottom: 20px; 
+        }
+
+        .intro-box {
+            background: #fdfaf0;
+            border: 1px solid #e0d7c6;
+            padding: clamp(15px, 5vw, 25px);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            font-size: clamp(0.9rem, 3vw, 1.05rem);
+            color: #3d2b1f;
+            line-height: 1.8;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        h1 { 
+            font-weight: 800; 
+            font-size: clamp(1.5rem, 6vw, 2.4rem); 
+            margin: 15px 0; 
+            color: var(--primary); 
+        }
+
+        /* حاوية الروابط: تصبح شبكة (Grid) في الشاشات الكبيرة */
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        @media (min-width: 768px) {
+            .container { grid-template-columns: 1fr 1fr; }
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            text-decoration: none;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid #e1e8ed;
+            transition: var(--transition);
+        }
+
+        .card:hover { 
+            transform: translateY(-3px);
+            border-color: var(--primary); 
+            background: #ffffff;
+            box-shadow: 0 10px 20px rgba(10, 30, 62, 0.05);
+        }
+
+        .icon {
+            font-size: 1.5rem;
+            background: var(--primary);
+            color: #ffffff;
+            width: 50px;
+            height: 50px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .card-content h3 { margin: 0; font-size: 1.1rem; }
+        .card-content p { margin: 5px 0 0; font-size: 0.85rem; color: var(--text-muted); }
+
+        footer { 
+            width: 100%; 
+            text-align: center; 
+            padding: 30px 0; 
+            background: #fafbfc; 
+            margin-top: auto;
+        }
+        
+        .siroz-brand { text-decoration: none; color: var(--primary); font-weight: 900; letter-spacing: 2px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <div class="lang-container">
+        <button class="lang-btn active" id="btn-ar" onclick="changeLang('ar')">العربية</button>
+        <button class="lang-btn" id="btn-ku" onclick="changeLang('ku')">Kurdî</button>
+        <button class="lang-btn" id="btn-en" onclick="changeLang('en')">English</button>
+    </div>
+
+    <header>
+        <div class="bismillah">بسم الله الرحمن الرحيم</div>
+        <div id="intro-area" class="intro-box"></div>
+        <h1 id="main-title">سنة وحديث سيروز</h1>
+    </header>
+
+    <div class="container" id="links-container"></div>
+
+    <footer>
+        <p style="font-size: 0.6rem; color: #bbb; margin-bottom: 5px; letter-spacing: 2px;">POWERED BY</p>
+        <a href="https://sizaxoy2000-ship-it.github.io/siroz-web/" target="_blank" class="siroz-brand">SIROZ WEB</a>
+    </footer>
+
+    <script>
+        // (نفس السكريبت السابق مع الحفاظ على وظائف تغيير اللغة)
+        const content = {
+            ar: {
+                title: "سنة وحديث سيروز",
+                intro: "الحمدلله الذي أنعم علينا بالإسلام.. بفضل الله جمعتُ لكم بين السنة والحديث والعلم ليسهل عليكم بحثكم.. نعتذر لأي تقصير.. والحمدلله.",
+                links: [
+                    { name: "الدرر السنية", desc: "التوثيق المعتمد للأحاديث", url: "https://dorar.net/hadith", icon: "✵" },
+                    { name: "Sunnah.com", desc: "مرجع الكتب التسعة", url: "https://sunnah.com/ar", icon: "❈" },
+                    { name: "موسوعة الحديث", desc: "البحث المعمق في الأسانيد", url: "https://hadith.islam-db.com/", icon: "⚜" }
+                ]
+            },
+            ku: {
+                title: "سنة وحديث سيروز",
+                intro: "سوپاس بۆ خودایێ مەزن یێ کو نیعمەتا ئیسلامێ دایە مە.. ب فەزلا خودێ من باشترین ژێدەر کۆمکرینە.",
+                links: [
+                    { name: "الدرر السنية", desc: "باشترین ژێدەر بۆ پشكنینا فەرموودان", url: "https://dorar.net/hadith", icon: "✵" },
+                    { name: "Sunnah.com", desc: "لێگەڕیان دناڤ دەقێن فەرموودان دا", url: "https://sunnah.com/ar", icon: "❈" },
+                    { name: "موسوعة الحديث", desc: "زانیاريێن هوير ل سەر فەرموودەیان", url: "https://hadith.islam-db.com/", icon: "⚜" }
+                ]
+            },
+            en: {
+                title: "Siroz Sunnah & Hadith",
+                intro: "Praise be to Allah for the blessing of Islam. I have combined these sources to simplify your research.",
+                links: [
+                    { name: "Sunnah.com", desc: "Official database of the 9 books", url: "https://sunnah.com", icon: "📜" },
+                    { name: "Dorar Net", desc: "Trusted hadith verification", url: "https://dorar.net/en", icon: "✅" },
+                    { name: "Hadith Encyclopedia", desc: "Scholarly research", url: "https://hadith.islam-db.com/", icon: "🧭" }
+                ]
+            }
+        };
+
+        function changeLang(lang) {
+            document.documentElement.lang = lang;
+            document.getElementById('main-title').innerText = content[lang].title;
+            document.getElementById('intro-area').innerText = content[lang].intro;
+            const container = document.getElementById('links-container');
+            container.innerHTML = '';
+            content[lang].links.forEach(link => {
+                container.innerHTML += `
+                    <a href="${link.url}" target="_blank" class="card">
+                        <div class="icon">${link.icon}</div>
+                        <div class="card-content">
+                            <h3>${link.name}</h3>
+                            <p>${link.desc}</p>
+                        </div>
+                    </a>`;
+            });
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + lang).classList.add('active');
+        }
+        changeLang('ar');
+    </script>
+</body>
+</html>
